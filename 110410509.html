@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>留言板</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"></script>
+<style>
+body {
+  padding-top: 60px;
+  padding-bottom: 20px;
+}
+</style>
+  
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a color=black class="navbar-brand" href="#">測試留言板</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse"> </div>
+        </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+          <form class="form-signin">留下你想說的話<label for="inputTitle" class="sr-only">標題</label><br/>
+          <input type="text" id="title" class="form-control" placeholder="標題" required autofocus><br/>
+            內容：<textarea class="form-control" rows="5" id="text" placeholder="內文"></textarea><br/>
+            <button onclick="save()" type="button" class="btn btn-warning" id="submit" >新增留言</button>
+            <button type="reset" class="btn btn-warning">清除全部</button>
+          </form>
+          <div><table id="list"></div>
+       </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+      </div>
+      <hr>
+    </div>
+    <script>
+var Title = document.getElementById("title");
+var Text  = document.getElementById("text");
+var List = document.getElementById("list");
+
+function save() {
+  var title = Title.value;
+  var text  = Text.value;
+  window.localStorage.setItem("notepad:"+title, text);
+  showList();
+}
+
+function showList() {
+  var rowHtml = "";
+  for (var title in window.localStorage) {
+    if (title.startsWith("notepad:")) {
+      rowHtml += "<tr><td><a onclick=\"loadDoc('"+title+"')\">"+title.substring(8)+"</a></td></tr>"
+    }
+  }
+  List.innerHTML = rowHtml;
+}
+
+function loadDoc(title) {
+  Title.value = title.substring(8);
+  Text.value  = window.localStorage.getItem(title);
+}
+showList();
+
+</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </body>
+</html>
